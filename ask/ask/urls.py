@@ -18,11 +18,11 @@ from qa.views import test
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', handler404),
-    url(r'^login/', handler404),
-    url(r'^signup/', handler404),
+    url(r'^$', test),
+    url(r'^login/', test),
+    url(r'^signup/', test),
     url(r'^question/(?P<qid>\d+)/', test),
-    url(r'^ask/', handler404),
-    url(r'^popular/', handler404),
-    url(r'^new/', handler404),
+    url(r'^ask/', test),
+    url(r'^popular/', test),
+    url(r'^new/', test),
 ]
