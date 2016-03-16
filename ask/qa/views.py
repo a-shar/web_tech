@@ -28,11 +28,8 @@ def question_detail(request, qid):
 
 def question_list(request, order_by, page_name, base_url):
     questions = Question.objects.order_by(order_by)
-    limit = request.GET.get('limit', 10)
-    page = request.GET.get('page', 1)
-    paginator = Paginator(questions, limit)
+    paginator, page = paginate(request, questions)
     paginator.baseurl = base_url
-    page = paginator.page(page)  # Page
     return render(request, 'ask/' + page_name, {
         'asks': page.object_list,
         'paginator': paginator,
@@ -57,4 +54,4 @@ def paginate(request, qs):
         page = paginator.page(page)
     except EmptyPage:
         page = paginator.page(paginator.num_pages)
-    return page
+    return paginator, page
