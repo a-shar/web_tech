@@ -14,15 +14,15 @@ Including another URLconf
 """
 from django.conf.urls import include, url, handler404
 from django.contrib import admin
-from qa.views import test
+from qa.views import *
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', test),
+    url(r'^$', main_page),
     url(r'^login/', test),
     url(r'^signup/', test),
-    url(r'^question/(?P<qid>\d+)/', test),
+    url(r'^question/(?P<qid>\d+)/', question_detail),
     url(r'^ask/', test),
-    url(r'^popular/', test),
+    url(r'^popular/', popular_page),
     url(r'^new/', test),
 ]

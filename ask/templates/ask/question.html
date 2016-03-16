@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h3>{{ question.title }}</h3>
+
+<div>
+    {{ question.text }}
+
+    {% for ans in answers %}
+        <pre>{{ ans.text }}</pre>
+    {% endfor %}
+
+</div>
+{% endblock %}

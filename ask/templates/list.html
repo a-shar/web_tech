@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<nav>
+    <div>
+        <table class="table">
+        <thead>
+            <tr>
+              <th>Question</th>
+              <th>Rating</th>
+            </tr>
+        </thead>
+            <tbody>
+            {% for obj in asks %}
+                <tr>
+                    <td> <a href="/question/{{ obj.id }}/">{{ obj.title }}</a></td>
+                    <td> {{ obj.rating }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <ul class="pagination">
+        {% for p in paginator.page_range %}
+        {% if p.number == page.number %}
+        <li class="active">
+            {% else %}
+        <li>
+            {% endif %}
+            <a href="{{ paginator.baseurl }}{{ p }}">{{ p }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</nav>
+
+{% endblock %}

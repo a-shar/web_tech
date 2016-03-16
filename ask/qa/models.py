@@ -1,15 +1,15 @@
-from django.db import models
-from datetime import datetime
 from django.contrib.auth.models import User
+from django.db import models
+from django.utils.timezone import now
 
 
 class Question(models.Model):
     title = models.CharField(max_length=1024)
     text = models.TextField()
-    added_at = models.DateTimeField(default=datetime.now())
+    added_at = models.DateTimeField(default=now)
     rating = models.IntegerField()
-    author = models.ForeignKey(User)
-    likes = models.ManyToManyField(User)
+    author = models.ForeignKey(User, related_name='author')
+    likes = models.ManyToManyField(User, related_name="likes")
 
 
 class Answer(models.Model):
