@@ -69,6 +69,12 @@ TEMPLATES = [
     },
 ]
 
+TEMPLATE_DIRS = (
+	'/home/box/web/ask/templates',
+    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+)
 WSGI_APPLICATION = 'ask.wsgi.application'
 
 
@@ -76,19 +82,19 @@ WSGI_APPLICATION = 'ask.wsgi.application'
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#    }
 
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'myproject',
-    #     'USER': 'enth',
-    #     'PASSWORD': 'password',
-    #     'HOST': 'localhost',
-    #     'PORT': '',
-    # }
+     'default': {
+         'ENGINE': 'django.db.backends.mysql',
+         'NAME': 'myproject',
+         'USER': 'enth',
+         'PASSWORD': 'password',
+         'HOST': 'localhost',
+         'PORT': '',
+     }
 }
 
 
