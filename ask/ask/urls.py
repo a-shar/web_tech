@@ -12,8 +12,9 @@ Class-based views
 Including another URLconf
     1. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import include, url, handler404
+from django.conf.urls import include, url
 from django.contrib import admin
+
 from qa.views import *
 
 urlpatterns = [
@@ -22,7 +23,8 @@ urlpatterns = [
     url(r'^login/', test),
     url(r'^signup/', test),
     url(r'^question/(?P<qid>\d+)/', question_detail),
-    url(r'^ask/', test),
+    url(r'^ask/', ask),
     url(r'^popular/', popular_page),
     url(r'^new/', test),
+    url(r'^answer/', answer),
 ]
