@@ -34,6 +34,9 @@ class AnswerForm(forms.ModelForm):
     class Meta:
         model = Answer
         fields = ('text', 'question')
+        labels = {
+            'text': 'Ответ',
+        }
         widgets = {
             "question" : forms.HiddenInput(),
         }
