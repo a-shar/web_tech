@@ -1,5 +1,4 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
@@ -63,13 +62,11 @@ def paginate(request, qs):
     return paginator, page
 
 
+@login_required
 def ask(request, *args, **kwargs):
     if request.method == "POST":
         form = AskForm(request.POST)
-        if request.user.is_anonymous():
-            form.author = User.objects.get(pk=1)
-        else:
-            form.author = request.user
+        form.author = request.user
         if form.is_valid():
             question = form.save()
             url = question.get_url()
@@ -85,12 +82,7 @@ def ask(request, *args, **kwargs):
 @require_POST
 @login_required
 def answer(request, *args, **kwargs):
-    user = None
-    if request.user.is_anonymous():
-        user = User.objects.get(pk=1)
-    else:
-        user = request.user
-    answer = Answer(author=user)
+    answer = Answer(author=request.user)
     form = AnswerForm(request.POST, instance=answer)
     if form.is_valid():
         answer.save()
@@ -102,7 +94,6 @@ def answer(request, *args, **kwargs):
 
 
 def signup(request, *args, **kwargs):
-    request.session['shar'] = "test"
     if request.method == "POST":
         form = SignupForm(request.POST)
         if form.is_valid():
