@@ -94,6 +94,7 @@ def answer(request, *args, **kwargs):
 
 
 def signup(request, *args, **kwargs):
+    request.session['shar'] = "test"
     if request.method == "POST":
         form = SignupForm(request.POST)
         if form.is_valid():
