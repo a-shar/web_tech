@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', main_page),
     url(r'^login/', auth_views.login, {'template_name': 'accounts/login.html'}),
+    url(r'^logout/', auth_views.logout),
     url(r'^signup/', signup),
     url(r'^question/(?P<qid>\d+)/', question_detail),
     url(r'^ask/', ask),
