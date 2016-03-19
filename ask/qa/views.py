@@ -1,10 +1,10 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_POST
 
-from qa.forms import AskForm, AnswerForm
+from qa.forms import AskForm, AnswerForm, SignupForm
 from qa.models import Question, Answer
 
 
@@ -23,7 +23,7 @@ def popular_page(request, *args, **kwargs):
 def question_detail(request, qid):
     question = get_object_or_404(Question, id=qid)
     answers = Answer.objects.filter(question=question)
-    answer_form = AnswerForm(initial={'question': qid, 'author': User.objects.get(pk=1)})
+    answer_form = AnswerForm(initial={'question': question})
     return render(request, 'ask/question.html', {
         'question': question,
         'answers': answers,
@@ -62,9 +62,11 @@ def paginate(request, qs):
     return paginator, page
 
 
+@login_required
 def ask(request, *args, **kwargs):
     if request.method == "POST":
         form = AskForm(request.POST)
+        form.author = request.user
         if form.is_valid():
             question = form.save()
             url = question.get_url()
@@ -76,13 +78,31 @@ def ask(request, *args, **kwargs):
         'form': form
     })
 
+
 @require_POST
+@login_required
 def answer(request, *args, **kwargs):
-    form = AnswerForm(request.POST)
+    answer = Answer(author=request.user)
+    form = AnswerForm(request.POST, instance=answer)
     if form.is_valid():
-        answer = form.save()
+        answer.save()
         url = answer.question.get_url()
         return HttpResponseRedirect(url)
 
     q = get_object_or_404(Question, id=form['question'].data)
     return HttpResponseRedirect(q.get_url())
+
+
+def signup(request, *args, **kwargs):
+    if request.method == "POST":
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect("/")
+
+    else:
+        form = SignupForm()
+
+    return render(request, 'accounts/signup.html', {
+        'form': form
+    })

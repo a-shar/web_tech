@@ -1,6 +1,7 @@
 # coding=utf-8
 
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 from qa.models import Question, Answer
@@ -24,7 +25,7 @@ class AskForm(forms.Form):
 
     def save(self):
         question = Question(**self.cleaned_data)
-        question.author = User.objects.get(pk=1)
+        question.author = self.author
         question.save()
         return question
 
@@ -32,10 +33,9 @@ class AskForm(forms.Form):
 class AnswerForm(forms.ModelForm):
     class Meta:
         model = Answer
-        fields = ['text', 'question', 'author']
+        fields = ('text', 'question')
         widgets = {
             "question" : forms.HiddenInput(),
-            "author" : forms.HiddenInput(),
         }
     # text = forms.CharField(widget=forms.Textarea, label="Текст ответа")
     # question = forms.IntegerField(widget=forms.HiddenInput(), label=None)
@@ -54,3 +54,9 @@ class AnswerForm(forms.ModelForm):
     #     answer.author = User.objects.get(pk=1)
     #     answer.save()
     #     return answer
+
+
+class SignupForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ("username","email",)

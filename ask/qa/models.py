@@ -13,9 +13,15 @@ class Question(models.Model):
     def get_url(self):
         return '/question/{0}/'.format(self.id)
 
+    def __unicode__(self):
+        return self.title
+
 
 class Answer(models.Model):
     text = models.TextField()
     added_at = models.DateTimeField(auto_now_add=True)
     question = models.ForeignKey(Question)
     author = models.ForeignKey(User)
+
+    def __unicode__(self):
+        return self.text
